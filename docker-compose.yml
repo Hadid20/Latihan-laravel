@@ -1,0 +1,43 @@
+version: '3.8'
+services:
+    app:
+        build:
+            context: .
+            dockerfile: Dockerfile
+        container_name: laravel_app
+        restart: unless-stopped
+        working_dir: /var/www
+        volumes:
+            - ./src:/var/www
+        ports:
+            - "9000:9000"
+        depends_on:
+            - db
+
+    webserver:
+        image: nginx:alpine
+        container_name: nginx_web
+        restart: unless-stopped
+        ports:
+            - "8000:80"
+        volumes:
+            - ./src:/var/www
+            - ./nginx/conf.d:/etc/nginx/conf.d
+        depends_on:
+            - app
+
+    db:
+        image: postgres:15
+        container_name: postgres_db
+        restart: unless-stopped
+        environment:
+            POSTGRES_DB: laravel_db
+            POSTGRES_USER: laravel_user
+            POSTGRES_PASSWORD: laravel_pass
+        volumes:
+            - db_data:/var/lib/postgresql/data
+        ports:
+            - "5432:5432"
+
+volumes:
+    db_data:
