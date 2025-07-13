@@ -1,9 +1,9 @@
 @extends('component.app')
 @section('content')
 <div>
-    <form action="{{ route('Product.store') }}" method="post" enctype="multipart/form-data">
+    <form action="{{ route('Product.update', $product) }}" method="post" enctype="multipart/form-data">
         @csrf
-        @method('POST')
+        @method('PUT')
         <div>
             <label for="">Image</label>
             <input type="file" name="ProductImage">

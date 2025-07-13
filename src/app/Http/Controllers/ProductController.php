@@ -48,7 +48,7 @@ class ProductController extends Controller
             $data->save();
         }
         ;
-        return redirect()->route('product')->with('message', 'succes');
+        return redirect()->route('Product')->with('message', 'succes');
 
     }
 
@@ -58,8 +58,8 @@ class ProductController extends Controller
     public function show(Product $product)
     {
         //
-        $product;
-        return view('', compact('product'));
+
+        return view('product.detail', ['product' => $product]);
     }
 
     /**
@@ -68,6 +68,8 @@ class ProductController extends Controller
     public function edit(Product $product)
     {
         //
+
+        return view('product.edit', ['product' => $product]);
 
     }
 
@@ -84,7 +86,7 @@ class ProductController extends Controller
             'ProductPrice' => 'required'
         ]);
 
-        $product->update($request->all);
+        $product->update($request->all());
 
         if ($request->hasFile('ProductImage')) {
             $filename = uniqid() . "-" . $request->file('ProductImage')->getClientOriginalName();
@@ -93,7 +95,7 @@ class ProductController extends Controller
             $product->save();
         }
         ;
-        return redirect()->route('product')->with('message', 'succes');
+        return redirect()->route('Product')->with('message', 'succes');
     }
 
     /**
@@ -103,7 +105,7 @@ class ProductController extends Controller
     {
         //
         $product->delete();
-        return redirect()->route('product')->with('message', 'succes');
+        return redirect()->route('Product')->with('message', 'succes');
 
     }
 }
